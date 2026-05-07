@@ -14,16 +14,17 @@
       --border: #27272d;
       --border-light: #1f1f24;
       --accent: #7c6af7;
-      --accent-dim: #7c6af720;
-      --accent-mid: #7c6af740;
+      --accent-dim: #7c6af714;
+      --accent-mid: #7c6af735;
       --text: #ececf0;
       --text-muted: #80808c;
       --text-dim: #3e3e4a;
       --yellow: #f5a623;
-      --yellow-dim: #f5a62318;
+      --yellow-dim: #f5a62314;
+      --green: #34d399;
       --radius: 10px;
       --radius-sm: 7px;
-      --sidebar-w: 240px;
+      --sidebar-w: 220px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -46,107 +47,97 @@
       border-right: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      padding: 24px 0;
       position: fixed;
       top: 0; left: 0;
       overflow-y: auto;
       z-index: 10;
+      padding-bottom: 24px;
     }
 
     .sidebar-logo {
-      padding: 0 18px 20px;
+      padding: 18px 16px 14px;
       border-bottom: 1px solid var(--border);
-      margin-bottom: 20px;
+      flex-shrink: 0;
     }
 
     .sidebar-logo h1 {
       font-size: 13px;
       font-weight: 600;
       color: var(--text);
-      letter-spacing: -0.1px;
+      letter-spacing: -0.2px;
     }
 
-    .sidebar-logo p {
+    .sidebar-stats {
       font-size: 11px;
-      color: var(--text-muted);
-      margin-top: 2px;
-    }
-
-    .sidebar-section {
-      padding: 0 18px;
-      margin-bottom: 24px;
-    }
-
-    .sidebar-section-label {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .7px;
-      text-transform: uppercase;
       color: var(--text-dim);
-      margin-bottom: 8px;
+      margin-top: 3px;
     }
 
-    /* month nav */
-    .month-list {
-      list-style: none;
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
+    /* collapsible sections */
+    .sec {
+      border-bottom: 1px solid var(--border-light);
     }
 
-    .month-item {
+    .sec-header {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 5px 8px;
-      border-radius: 6px;
+      gap: 5px;
+      padding: 9px 14px 7px;
       cursor: pointer;
-      transition: background .12s;
-      color: var(--text-muted);
-      font-size: 12px;
-    }
-
-    .month-item:hover { background: var(--surface2); color: var(--text); }
-    .month-item.active { background: var(--accent-dim); color: var(--accent); }
-
-    .month-item .month-count {
-      font-size: 10px;
-      background: var(--surface3);
-      color: var(--text-dim);
-      padding: 1px 6px;
-      border-radius: 999px;
-      font-weight: 500;
-    }
-
-    .month-item.active .month-count {
-      background: var(--accent-mid);
-      color: var(--accent);
-    }
-
-    /* person filters */
-    .person-list {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-
-    .person-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 5px 8px;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background .12s;
-      color: var(--text-muted);
-      font-size: 12px;
       user-select: none;
     }
 
-    .person-item:hover { background: var(--surface2); color: var(--text); }
-    .person-item.active { color: var(--text); }
+    .sec-header:hover .sec-label { color: var(--text-muted); }
 
-    .person-avatar {
+    .sec-chevron {
+      color: var(--text-dim);
+      transition: transform .15s;
+      flex-shrink: 0;
+    }
+
+    .sec.collapsed .sec-chevron { transform: rotate(-90deg); }
+    .sec.collapsed .sec-body { display: none; }
+
+    .sec-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .65px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      transition: color .12s;
+    }
+
+    .sec-body { padding: 2px 8px 10px; }
+
+    /* people grid */
+    .people-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+    }
+
+    .person-pill {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 7px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all .12s;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      user-select: none;
+    }
+
+    .person-pill:hover { background: var(--surface2); color: var(--text); }
+    .person-pill.active {
+      background: var(--accent-dim);
+      border-color: var(--accent-mid);
+      color: var(--accent);
+    }
+
+    .pill-av {
       width: 20px;
       height: 20px;
       border-radius: 50%;
@@ -158,32 +149,71 @@
       flex-shrink: 0;
     }
 
-    .person-check {
-      width: 14px;
-      height: 14px;
+    /* month list */
+    .month-list { list-style: none; display: flex; flex-direction: column; gap: 1px; }
+
+    .month-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all .12s;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      user-select: none;
+    }
+
+    .month-item:hover { background: var(--surface2); color: var(--text); }
+    .month-item.active { background: var(--accent-dim); color: var(--accent); }
+
+    .month-count {
+      font-size: 10px;
+      background: var(--surface3);
+      color: var(--text-dim);
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .month-item.active .month-count { background: var(--accent-mid); color: var(--accent); }
+
+    /* quick filters */
+    .quick-list { display: flex; flex-direction: column; gap: 1px; }
+
+    .quick-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-muted);
+      font-size: 11.5px;
+      transition: all .12s;
+      user-select: none;
+    }
+
+    .quick-item:hover { background: var(--surface2); color: var(--text); }
+    .quick-item.active { background: var(--accent-dim); color: var(--accent); }
+
+    .quick-icon {
+      width: 16px;
+      height: 16px;
       border-radius: 4px;
-      border: 1px solid var(--border);
-      margin-left: auto;
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      transition: all .12s;
+      font-size: 10px;
+      background: var(--surface3);
     }
 
-    .person-item.active .person-check {
-      background: var(--accent);
-      border-color: var(--accent);
-    }
-
-    .person-check svg { display: none; }
-    .person-item.active .person-check svg { display: block; }
-
-    /* clear btn */
+    /* clear */
     .clear-btn {
-      margin: 0 18px;
-      margin-top: auto;
-      padding: 7px 12px;
+      margin: 10px 16px 0;
+      padding: 6px 12px;
       border-radius: 6px;
       border: 1px solid var(--border);
       background: transparent;
@@ -192,8 +222,11 @@
       cursor: pointer;
       text-align: center;
       transition: all .12s;
+      display: none;
+      font-family: inherit;
     }
 
+    .clear-btn.visible { display: block; }
     .clear-btn:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── MAIN ── */
@@ -202,15 +235,15 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      min-width: 0;
     }
 
-    /* top bar */
     .topbar {
       position: sticky;
       top: 0;
       background: var(--bg);
       border-bottom: 1px solid var(--border);
-      padding: 14px 32px;
+      padding: 11px 28px;
       display: flex;
       align-items: center;
       gap: 12px;
@@ -219,13 +252,13 @@
 
     .search-wrap {
       flex: 1;
-      max-width: 480px;
+      max-width: 420px;
       position: relative;
     }
 
-    .search-wrap svg {
+    .search-wrap .search-icon {
       position: absolute;
-      left: 11px;
+      left: 10px;
       top: 50%;
       transform: translateY(-50%);
       color: var(--text-dim);
@@ -234,7 +267,7 @@
 
     input[type="search"] {
       width: 100%;
-      padding: 7px 12px 7px 32px;
+      padding: 7px 12px 7px 30px;
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
@@ -242,6 +275,7 @@
       font-size: 12.5px;
       outline: none;
       transition: border-color .15s;
+      font-family: inherit;
     }
 
     input[type="search"]:focus { border-color: var(--accent); }
@@ -249,18 +283,18 @@
 
     .result-count {
       font-size: 11.5px;
-      color: var(--text-muted);
+      color: var(--text-dim);
       white-space: nowrap;
+      margin-left: auto;
     }
 
-    /* active filter chips */
+    /* filter chips */
     .active-filters {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
-      padding: 10px 32px;
+      gap: 5px;
+      padding: 8px 28px;
       border-bottom: 1px solid var(--border-light);
-      min-height: 0;
     }
 
     .active-filters:empty { display: none; }
@@ -268,8 +302,8 @@
     .filter-chip {
       display: flex;
       align-items: center;
-      gap: 5px;
-      padding: 3px 8px 3px 10px;
+      gap: 4px;
+      padding: 3px 7px 3px 9px;
       background: var(--accent-dim);
       border: 1px solid var(--accent-mid);
       border-radius: 999px;
@@ -286,35 +320,44 @@
       padding: 0;
       display: flex;
       align-items: center;
-      opacity: .7;
+      opacity: .6;
+      line-height: 1;
     }
 
     .filter-chip button:hover { opacity: 1; }
 
     /* feed */
     .feed {
-      padding: 32px 32px 80px;
+      padding: 24px 28px 80px;
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 8px;
     }
 
     /* month group */
-    .month-group {}
-
     .month-header {
       display: flex;
       align-items: center;
-      gap: 12px;
-      margin-bottom: 16px;
+      gap: 8px;
+      padding: 4px 0 10px;
       cursor: pointer;
       user-select: none;
     }
 
-    .month-header:hover .month-title { color: var(--text); }
+    .month-header:hover .mh-title { color: var(--text); }
 
-    .month-title {
-      font-size: 12px;
+    .mh-chevron {
+      color: var(--text-dim);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .month-group.collapsed .mh-chevron { transform: rotate(-90deg); }
+    .month-group.collapsed .month-cards { display: none; }
+    .month-group + .month-group { margin-top: 16px; }
+
+    .mh-title {
+      font-size: 11.5px;
       font-weight: 600;
       color: var(--text-muted);
       letter-spacing: .3px;
@@ -322,13 +365,9 @@
       transition: color .12s;
     }
 
-    .month-line {
-      flex: 1;
-      height: 1px;
-      background: var(--border);
-    }
+    .mh-line { flex: 1; height: 1px; background: var(--border); }
 
-    .month-badge {
+    .mh-badge {
       font-size: 10px;
       color: var(--text-dim);
       background: var(--surface2);
@@ -336,16 +375,7 @@
       border-radius: 999px;
     }
 
-    .month-chevron {
-      color: var(--text-dim);
-      transition: transform .2s;
-      flex-shrink: 0;
-    }
-
-    .month-group.collapsed .month-chevron { transform: rotate(-90deg); }
-    .month-group.collapsed .month-cards { display: none; }
-
-    /* meeting card */
+    /* card */
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -354,14 +384,14 @@
       transition: border-color .15s;
     }
 
-    .card:hover { border-color: #33333c; }
-    .card + .card { margin-top: 8px; }
+    .card:hover { border-color: #2e2e36; }
+    .card + .card { margin-top: 5px; }
 
     .card-header {
       display: flex;
       align-items: center;
-      gap: 14px;
-      padding: 14px 18px;
+      gap: 12px;
+      padding: 12px 16px;
       cursor: pointer;
       user-select: none;
     }
@@ -370,11 +400,11 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      min-width: 36px;
+      width: 32px;
       flex-shrink: 0;
     }
 
-    .card-weekday {
+    .card-wd {
       font-size: 9px;
       font-weight: 600;
       text-transform: uppercase;
@@ -382,58 +412,72 @@
       color: var(--text-dim);
     }
 
-    .card-daynum {
+    .card-dd {
       font-size: 20px;
       font-weight: 700;
-      line-height: 1;
+      line-height: 1.1;
       color: var(--text);
       letter-spacing: -1px;
     }
 
-    .card-info {
-      flex: 1;
-      min-width: 0;
+    .card-sep {
+      width: 1px;
+      height: 30px;
+      background: var(--border);
+      flex-shrink: 0;
     }
 
-    .card-participants {
+    .card-info { flex: 1; min-width: 0; }
+
+    .card-avs {
       display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-bottom: 5px;
+      align-items: center;
+      gap: 2px;
+      margin-bottom: 4px;
     }
 
-    .participant-tag {
-      font-size: 11px;
-      padding: 2px 7px;
-      border-radius: 999px;
-      font-weight: 500;
-      background: var(--surface3);
-      color: var(--text-muted);
-      border: 1px solid var(--border);
+    .cav {
+      width: 17px;
+      height: 17px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
 
     .card-preview {
-      font-size: 12px;
-      color: var(--text-muted);
+      font-size: 11.5px;
+      color: var(--text-dim);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      max-width: 500px;
     }
 
     .card-meta {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-shrink: 0;
     }
 
-    .duration-badge {
+    .dur-badge {
       font-size: 11px;
       color: var(--text-dim);
       display: flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
+    }
+
+    .michi-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--yellow);
+      opacity: .5;
+      flex-shrink: 0;
     }
 
     .chevron {
@@ -446,16 +490,16 @@
 
     .card-body {
       display: none;
-      padding: 0 18px 18px;
+      padding: 0 16px 16px;
       border-top: 1px solid var(--border-light);
     }
 
     .card.open .card-body { display: block; }
 
-    /* michi time */
+    /* michi */
     .michi-block {
       background: var(--yellow-dim);
-      border: 1px solid #f5a62325;
+      border: 1px solid #f5a62322;
       border-radius: var(--radius-sm);
       padding: 10px 14px;
       margin-top: 14px;
@@ -480,7 +524,7 @@
       line-height: 1.6;
     }
 
-    /* wip grid */
+    /* wip */
     .wip-label {
       font-size: 10px;
       font-weight: 600;
@@ -492,21 +536,20 @@
 
     .wip-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(auto-fill, minmax(196px, 1fr));
+      gap: 7px;
     }
 
     .wip-card {
       background: var(--surface2);
       border: 1px solid var(--border);
       border-radius: var(--radius-sm);
-      padding: 10px 12px;
+      padding: 9px 12px;
       transition: border-color .12s;
     }
 
-    .wip-card:hover { border-color: #33333c; }
-
-    .wip-card.empty { opacity: .3; }
+    .wip-card:hover { border-color: #2e2e36; }
+    .wip-card.empty { opacity: .28; }
 
     .wip-member {
       display: flex;
@@ -515,9 +558,9 @@
       margin-bottom: 5px;
     }
 
-    .wip-avatar {
-      width: 18px;
-      height: 18px;
+    .wip-av {
+      width: 17px;
+      height: 17px;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -543,15 +586,13 @@
 
     .wip-card.empty .wip-text { color: var(--text-dim); font-style: italic; }
 
-    /* highlight */
     mark {
-      background: #f5a62340;
+      background: #f5a62335;
       color: var(--yellow);
       border-radius: 2px;
       padding: 0 1px;
     }
 
-    /* empty state */
     .empty-state {
       text-align: center;
       padding: 80px 20px;
@@ -562,15 +603,14 @@
     .empty-state p { font-size: 12.5px; }
 
     /* avatar colors */
+    .av-mauri  { background: #06b6d418; color: #22d3ee; }
     .av-win    { background: #3b82f618; color: #60a5fa; }
     .av-jime   { background: #ec489918; color: #f472b6; }
     .av-juanpa { background: #f59e0b18; color: #fbbf24; }
     .av-lu     { background: #10b98118; color: #34d399; }
     .av-luigi  { background: #8b5cf618; color: #a78bfa; }
     .av-pablos { background: #ef444418; color: #f87171; }
-    .av-mauri  { background: #06b6d418; color: #22d3ee; }
 
-    /* scrollbar */
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: transparent; }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
@@ -578,42 +618,59 @@
 </head>
 <body>
 
-<!-- SIDEBAR -->
 <aside class="sidebar">
   <div class="sidebar-logo">
-    <h1>Design Team MoMs</h1>
-    <p>Daily standups · Capicua</p>
+    <h1>Design MoMs</h1>
+    <p class="sidebar-stats" id="sidebarStats"></p>
   </div>
 
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">By month</div>
-    <ul class="month-list" id="monthList"></ul>
+  <div class="sec" id="sec-personas">
+    <div class="sec-header" onclick="toggleSection('personas')">
+      <svg class="sec-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="sec-label">Personas</span>
+    </div>
+    <div class="sec-body">
+      <div class="people-grid" id="personList"></div>
+    </div>
   </div>
 
-  <div class="sidebar-section">
-    <div class="sidebar-section-label">By person</div>
-    <div class="person-list" id="personList"></div>
+  <div class="sec" id="sec-mes">
+    <div class="sec-header" onclick="toggleSection('mes')">
+      <svg class="sec-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="sec-label">Mes</span>
+    </div>
+    <div class="sec-body">
+      <ul class="month-list" id="monthList"></ul>
+    </div>
   </div>
 
-  <button class="clear-btn" id="clearBtn" onclick="clearFilters()">Clear all filters</button>
+  <div class="sec" id="sec-filtros">
+    <div class="sec-header" onclick="toggleSection('filtros')">
+      <svg class="sec-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
+      <span class="sec-label">Filtros</span>
+    </div>
+    <div class="sec-body">
+      <div class="quick-list" id="quickList"></div>
+    </div>
+  </div>
+
+  <button class="clear-btn" id="clearBtn" onclick="clearFilters()">Limpiar filtros</button>
 </aside>
 
-<!-- MAIN -->
 <div class="main">
   <div class="topbar">
     <div class="search-wrap">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="search" id="search" placeholder="Search people, projects, notes…" />
+      <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="search" placeholder="Buscar personas, proyectos, notas…" />
     </div>
     <span class="result-count" id="resultCount"></span>
   </div>
 
   <div class="active-filters" id="activeFilters"></div>
-
   <div class="feed" id="feed"></div>
   <div class="empty-state" id="emptyState" style="display:none">
-    <h3>No meetings found</h3>
-    <p>Try adjusting your filters or search query.</p>
+    <h3>Sin resultados</h3>
+    <p>Probá ajustando los filtros o la búsqueda.</p>
   </div>
 </div>
 
@@ -1038,12 +1095,15 @@ const members = [
 ];
 
 // ── STATE ──
-let activeMonth   = null;   // "2026-03" or null
-let activePersons = [];     // ["win","lu",…]
-let searchQ       = "";
-let collapsedMonths = new Set();
+let activeMonth    = null;
+let activePersons  = [];
+let searchQ        = "";
+let collapsedMonths   = new Set();
+let collapsedSections = new Set();
+let filterMichi    = false;
+let filterFullTeam = false;
 
-// ── MONTH HELPERS ──
+// ── HELPERS ──
 function monthKey(iso) { return iso.slice(0, 7); }
 
 function monthLabel(key) {
@@ -1060,18 +1120,24 @@ function weekday(iso) {
   return new Date(iso + "T00:00:00").toLocaleDateString("es-UY", { weekday: "short" });
 }
 
-function dayNum(iso) {
-  return iso.slice(8);
+function dayNum(iso) { return iso.slice(8); }
+
+function hasActive() {
+  return !!(activeMonth || activePersons.length || filterMichi || filterFullTeam || searchQ);
 }
 
-// ── FILTER LOGIC ──
+// ── FILTER ──
 function filtered() {
   const q = searchQ.toLowerCase();
   return [...meetings].reverse().filter(m => {
     if (activeMonth && monthKey(m.date) !== activeMonth) return false;
-    if (activePersons.length) {
-      const hasWip = activePersons.every(p => (m.wip[p] || "").trim());
-      if (!hasWip) return false;
+    if (activePersons.length && !activePersons.every(p => (m.wip[p] || "").trim())) return false;
+    if (filterMichi && !m.michi) return false;
+    if (filterFullTeam) {
+      const core = ["win","juanpa","lu","luigi","pablos"];
+      if (!core.every(p => m.participants.some(part =>
+        part.toLowerCase() === (members.find(mb => mb.key === p)?.label.toLowerCase())
+      ))) return false;
     }
     if (q) {
       const blob = [m.michi, ...Object.values(m.wip), m.participants.join(" ")].join(" ").toLowerCase();
@@ -1081,14 +1147,20 @@ function filtered() {
   });
 }
 
-// ── HIGHLIGHT ──
 function hl(text) {
   if (!searchQ) return text;
   const re = new RegExp(`(${searchQ.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
   return text.replace(re, "<mark>$1</mark>");
 }
 
-// ── SIDEBAR: MONTH LIST ──
+// ── SIDEBAR ──
+function buildSidebarStats() {
+  const dates = meetings.map(m => m.date).sort();
+  const fmt = iso => new Date(iso + "T00:00:00").toLocaleDateString("es-UY", { month: "short", year: "2-digit" });
+  document.getElementById("sidebarStats").textContent =
+    `${meetings.length} standups · ${fmt(dates[0])} – ${fmt(dates[dates.length - 1])}`;
+}
+
 function buildMonthList() {
   const counts = {};
   meetings.forEach(m => { const k = monthKey(m.date); counts[k] = (counts[k] || 0) + 1; });
@@ -1097,10 +1169,9 @@ function buildMonthList() {
   const ul = document.getElementById("monthList");
   ul.innerHTML = "";
 
-  // All option
   const allLi = document.createElement("li");
-  allLi.className = "month-item" + (activeMonth === null ? " active" : "");
-  allLi.innerHTML = `<span>All time</span><span class="month-count">${meetings.length}</span>`;
+  allLi.className = "month-item" + (!activeMonth ? " active" : "");
+  allLi.innerHTML = `<span>Todos</span><span class="month-count">${meetings.length}</span>`;
   allLi.onclick = () => { activeMonth = null; render(); };
   ul.appendChild(allLi);
 
@@ -1108,25 +1179,34 @@ function buildMonthList() {
     const li = document.createElement("li");
     li.className = "month-item" + (activeMonth === k ? " active" : "");
     li.innerHTML = `<span style="text-transform:capitalize">${monthLabelShort(k)}</span><span class="month-count">${counts[k]}</span>`;
-    li.onclick = () => { activeMonth = (activeMonth === k ? null : k); render(); };
+    li.onclick = () => { activeMonth = activeMonth === k ? null : k; render(); };
     ul.appendChild(li);
   });
 }
 
-// ── SIDEBAR: PERSON LIST ──
 function buildPersonList() {
-  const el = document.getElementById("personList");
-  el.innerHTML = members.map(({ key, label, av }) => {
-    const active = activePersons.includes(key);
-    return `
-      <div class="person-item ${active ? "active" : ""}" onclick="togglePerson('${key}')">
-        <span class="person-avatar ${av}">${label[0]}</span>
-        <span>${label}</span>
-        <span class="person-check">
-          <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
-        </span>
-      </div>`;
-  }).join("");
+  document.getElementById("personList").innerHTML = members.map(({ key, label, av }) => `
+    <div class="person-pill ${activePersons.includes(key) ? "active" : ""}" onclick="togglePerson('${key}')">
+      <span class="pill-av ${av}">${label[0]}</span>
+      <span>${label}</span>
+    </div>`).join("");
+}
+
+function buildQuickFilters() {
+  document.getElementById("quickList").innerHTML = `
+    <div class="quick-item ${filterMichi ? "active" : ""}" onclick="toggleQuick('michi')">
+      <span class="quick-icon">💬</span>Con Michi time
+    </div>
+    <div class="quick-item ${filterFullTeam ? "active" : ""}" onclick="toggleQuick('full')">
+      <span class="quick-icon">👥</span>Full team
+    </div>`;
+}
+
+function toggleSection(id) {
+  const el = document.getElementById("sec-" + id);
+  if (!el) return;
+  collapsedSections.has(id) ? collapsedSections.delete(id) : collapsedSections.add(id);
+  el.classList.toggle("collapsed", collapsedSections.has(id));
 }
 
 function togglePerson(key) {
@@ -1136,96 +1216,89 @@ function togglePerson(key) {
   render();
 }
 
+function toggleQuick(type) {
+  if (type === "michi") filterMichi = !filterMichi;
+  if (type === "full")  filterFullTeam = !filterFullTeam;
+  render();
+}
+
 function clearFilters() {
-  activeMonth = null;
-  activePersons = [];
+  activeMonth = null; activePersons = [];
+  filterMichi = false; filterFullTeam = false;
   searchQ = "";
   document.getElementById("search").value = "";
   render();
 }
 
-// ── ACTIVE FILTER CHIPS ──
+// ── CHIPS ──
 function buildChips() {
-  const el = document.getElementById("activeFilters");
+  const xBtn = (cb) => `<button onclick="${cb}">
+    <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+  </button>`;
+
   const chips = [];
-
   if (activeMonth) {
-    chips.push(`<span class="filter-chip">
-      ${monthLabel(activeMonth).charAt(0).toUpperCase() + monthLabel(activeMonth).slice(1)}
-      <button onclick="activeMonth=null;render()">
-        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
-      </button>
-    </span>`);
+    const lbl = monthLabel(activeMonth);
+    chips.push(`<span class="filter-chip">${lbl[0].toUpperCase() + lbl.slice(1)}${xBtn("activeMonth=null;render()")}</span>`);
   }
-
   activePersons.forEach(key => {
-    const m = members.find(m => m.key === key);
-    chips.push(`<span class="filter-chip">
-      ${m.label}
-      <button onclick="activePersons=activePersons.filter(p=>p!=='${key}');render()">
-        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
-      </button>
-    </span>`);
+    const mb = members.find(m => m.key === key);
+    chips.push(`<span class="filter-chip">${mb.label}${xBtn(`activePersons=activePersons.filter(p=>p!=='${key}');render()`)}</span>`);
   });
+  if (filterMichi)    chips.push(`<span class="filter-chip">Con Michi${xBtn("filterMichi=false;render()")}</span>`);
+  if (filterFullTeam) chips.push(`<span class="filter-chip">Full team${xBtn("filterFullTeam=false;render()")}</span>`);
 
-  el.innerHTML = chips.join("");
+  document.getElementById("activeFilters").innerHTML = chips.join("");
 }
 
-// ── MAIN RENDER ──
+// ── RENDER ──
 function render() {
   buildMonthList();
   buildPersonList();
+  buildQuickFilters();
   buildChips();
 
+  document.getElementById("clearBtn").classList.toggle("visible", hasActive());
+
   const results = filtered();
-  const feed = document.getElementById("feed");
-  const empty = document.getElementById("emptyState");
-  const count = document.getElementById("resultCount");
+  const feed    = document.getElementById("feed");
+  const empty   = document.getElementById("emptyState");
 
-  count.textContent = `${results.length} standup${results.length !== 1 ? "s" : ""}`;
+  document.getElementById("resultCount").textContent =
+    `${results.length} standup${results.length !== 1 ? "s" : ""}`;
 
-  if (!results.length) {
-    feed.innerHTML = "";
-    empty.style.display = "block";
-    return;
-  }
+  if (!results.length) { feed.innerHTML = ""; empty.style.display = "block"; return; }
   empty.style.display = "none";
 
-  // Group by month
   const groups = {};
-  results.forEach(m => {
-    const k = monthKey(m.date);
-    if (!groups[k]) groups[k] = [];
-    groups[k].push(m);
-  });
+  results.forEach(m => { const k = monthKey(m.date); (groups[k] = groups[k] || []).push(m); });
 
   feed.innerHTML = Object.entries(groups).map(([month, items]) => {
     const collapsed = collapsedMonths.has(month);
     return `
-    <div class="month-group ${collapsed ? "collapsed" : ""}" id="mg-${month}">
-      <div class="month-header" onclick="toggleMonth('${month}')">
-        <svg class="month-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
-        <span class="month-title">${monthLabel(month)}</span>
-        <span class="month-line"></span>
-        <span class="month-badge">${items.length} standup${items.length !== 1 ? "s" : ""}</span>
-      </div>
-      <div class="month-cards">
-        ${items.map((m, i) => renderCard(m, month + i)).join("")}
-      </div>
-    </div>`;
+      <div class="month-group ${collapsed ? "collapsed" : ""}" id="mg-${month}">
+        <div class="month-header" onclick="toggleMonth('${month}')">
+          <svg class="mh-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6"/></svg>
+          <span class="mh-title">${monthLabel(month)}</span>
+          <span class="mh-line"></span>
+          <span class="mh-badge">${items.length} standup${items.length !== 1 ? "s" : ""}</span>
+        </div>
+        <div class="month-cards">${items.map((m, i) => renderCard(m, month + i)).join("")}</div>
+      </div>`;
   }).join("");
 }
 
 function renderCard(m, id) {
   const presentNames = new Set(m.participants.map(p => p.toLowerCase()));
+
   const wipCards = members.map(({ key, label, av }) => {
-    const text = (m.wip[key] || "").trim();
+    const text    = (m.wip[key] || "").trim();
     const present = presentNames.has(label.toLowerCase());
-    if (!text && !present) return ""; // skip absent members with no data
+    if (!text && !present) return "";
     return `
       <div class="wip-card ${!text ? "empty" : ""}">
         <div class="wip-member">
-          <span class="wip-avatar ${av}">${label[0]}</span>
+          <span class="wip-av ${av}">${label[0]}</span>
           <span class="wip-name">${label}</span>
         </div>
         <div class="wip-text">${text ? hl(text) : "—"}</div>
@@ -1235,36 +1308,39 @@ function renderCard(m, id) {
   const michiHtml = m.michi ? `
     <div class="michi-block">
       <div class="michi-label">
-        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
         Michi time
       </div>
       <div class="michi-text">${hl(m.michi)}</div>
     </div>` : "";
 
   const withUpdates = members.filter(({ key }) => (m.wip[key] || "").trim()).map(({ label }) => label);
-  const preview = withUpdates.length
-    ? withUpdates.join(" · ")
-    : m.participants.join(" · ");
+  const preview     = withUpdates.length ? withUpdates.join(" · ") : m.participants.join(" · ");
+
+  const participantAvatars = members
+    .filter(({ label }) => presentNames.has(label.toLowerCase()))
+    .map(({ label, av }) => `<span class="cav ${av}">${label[0]}</span>`)
+    .join("");
 
   return `
     <div class="card" id="card-${id}">
       <div class="card-header" onclick="document.getElementById('card-${id}').classList.toggle('open')">
         <div class="card-day">
-          <span class="card-weekday">${weekday(m.date)}</span>
-          <span class="card-daynum">${dayNum(m.date)}</span>
+          <span class="card-wd">${weekday(m.date)}</span>
+          <span class="card-dd">${dayNum(m.date)}</span>
         </div>
+        <div class="card-sep"></div>
         <div class="card-info">
-          <div class="card-participants">
-            ${m.participants.map(p => `<span class="participant-tag">${p}</span>`).join("")}
-          </div>
+          <div class="card-avs">${participantAvatars}</div>
           <div class="card-preview">${hl(preview)}</div>
         </div>
         <div class="card-meta">
-          ${m.duration ? `<span class="duration-badge">
+          ${m.michi ? `<span class="michi-dot" title="Con Michi time"></span>` : ""}
+          ${m.duration ? `<span class="dur-badge">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             ${m.duration}
           </span>` : ""}
-          <svg class="chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+          <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </div>
       <div class="card-body">
@@ -1275,15 +1351,9 @@ function renderCard(m, id) {
     </div>`;
 }
 
-// ── MONTH COLLAPSE ──
 function toggleMonth(month) {
-  if (collapsedMonths.has(month)) {
-    collapsedMonths.delete(month);
-  } else {
-    collapsedMonths.add(month);
-  }
-  const mg = document.getElementById("mg-" + month);
-  if (mg) mg.classList.toggle("collapsed", collapsedMonths.has(month));
+  collapsedMonths.has(month) ? collapsedMonths.delete(month) : collapsedMonths.add(month);
+  document.getElementById("mg-" + month)?.classList.toggle("collapsed", collapsedMonths.has(month));
 }
 
 // ── SEARCH ──
@@ -1293,6 +1363,8 @@ document.getElementById("search").addEventListener("input", e => {
 });
 
 // ── INIT ──
+[...new Set(meetings.map(m => monthKey(m.date)))].forEach(k => collapsedMonths.add(k));
+buildSidebarStats();
 render();
 </script>
 </body>
