@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Design Team — MoMs</title>
+  <style>
+    :root {
+      --bg: #0c0c0e;
+      --sidebar-bg: #111113;
+      --surface: #17171a;
+      --surface2: #1e1e22;
+      --surface3: #252529;
+      --border: #27272d;
+      --border-light: #1f1f24;
+      --accent: #7c6af7;
+      --accent-dim: #7c6af720;
+      --accent-mid: #7c6af740;
+      --text: #ececf0;
+      --text-muted: #80808c;
+      --text-dim: #3e3e4a;
+      --yellow: #f5a623;
+      --yellow-dim: #f5a62318;
+      --radius: 10px;
+      --radius-sm: 7px;
+      --sidebar-w: 240px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      width: var(--sidebar-w);
+      min-height: 100vh;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 24px 0;
+      position: fixed;
+      top: 0; left: 0;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    .sidebar-logo {
+      padding: 0 18px 20px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+    }
+
+    .sidebar-logo h1 {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+      letter-spacing: -0.1px;
+    }
+
+    .sidebar-logo p {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .sidebar-section {
+      padding: 0 18px;
+      margin-bottom: 24px;
+    }
+
+    .sidebar-section-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .7px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 8px;
+    }
+
+    /* month nav */
+    .month-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .month-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .12s;
+      color: var(--text-muted);
+      font-size: 12px;
+    }
+
+    .month-item:hover { background: var(--surface2); color: var(--text); }
+    .month-item.active { background: var(--accent-dim); color: var(--accent); }
+
+    .month-item .month-count {
+      font-size: 10px;
+      background: var(--surface3);
+      color: var(--text-dim);
+      padding: 1px 6px;
+      border-radius: 999px;
+      font-weight: 500;
+    }
+
+    .month-item.active .month-count {
+      background: var(--accent-mid);
+      color: var(--accent);
+    }
+
+    /* person filters */
+    .person-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+    }
+
+    .person-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background .12s;
+      color: var(--text-muted);
+      font-size: 12px;
+      user-select: none;
+    }
+
+    .person-item:hover { background: var(--surface2); color: var(--text); }
+    .person-item.active { color: var(--text); }
+
+    .person-avatar {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 9px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .person-check {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .12s;
+    }
+
+    .person-item.active .person-check {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .person-check svg { display: none; }
+    .person-item.active .person-check svg { display: block; }
+
+    /* clear btn */
+    .clear-btn {
+      margin: 0 18px;
+      margin-top: auto;
+      padding: 7px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 11px;
+      cursor: pointer;
+      text-align: center;
+      transition: all .12s;
+    }
+
+    .clear-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── MAIN ── */
+    .main {
+      margin-left: var(--sidebar-w);
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* top bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+      padding: 14px 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 5;
+    }
+
+    .search-wrap {
+      flex: 1;
+      max-width: 480px;
+      position: relative;
+    }
+
+    .search-wrap svg {
+      position: absolute;
+      left: 11px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      pointer-events: none;
+    }
+
+    input[type="search"] {
+      width: 100%;
+      padding: 7px 12px 7px 32px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text);
+      font-size: 12.5px;
+      outline: none;
+      transition: border-color .15s;
+    }
+
+    input[type="search"]:focus { border-color: var(--accent); }
+    input[type="search"]::placeholder { color: var(--text-dim); }
+
+    .result-count {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    /* active filter chips */
+    .active-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 10px 32px;
+      border-bottom: 1px solid var(--border-light);
+      min-height: 0;
+    }
+
+    .active-filters:empty { display: none; }
+
+    .filter-chip {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px 3px 10px;
+      background: var(--accent-dim);
+      border: 1px solid var(--accent-mid);
+      border-radius: 999px;
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 500;
+    }
+
+    .filter-chip button {
+      background: none;
+      border: none;
+      color: var(--accent);
+      cursor: pointer;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      opacity: .7;
+    }
+
+    .filter-chip button:hover { opacity: 1; }
+
+    /* feed */
+    .feed {
+      padding: 32px 32px 80px;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+
+    /* month group */
+    .month-group {}
+
+    .month-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .month-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: .3px;
+      text-transform: uppercase;
+    }
+
+    .month-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .month-badge {
+      font-size: 10px;
+      color: var(--text-dim);
+      background: var(--surface2);
+      padding: 2px 7px;
+      border-radius: 999px;
+    }
+
+    /* meeting card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: border-color .15s;
+    }
+
+    .card:hover { border-color: #33333c; }
+    .card + .card { margin-top: 8px; }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .card-day {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 36px;
+      flex-shrink: 0;
+    }
+
+    .card-weekday {
+      font-size: 9px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+      color: var(--text-dim);
+    }
+
+    .card-daynum {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1;
+      color: var(--text);
+      letter-spacing: -1px;
+    }
+
+    .card-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-participants {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 5px;
+    }
+
+    .participant-tag {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 999px;
+      font-weight: 500;
+      background: var(--surface3);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .card-preview {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 500px;
+    }
+
+    .card-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .duration-badge {
+      font-size: 11px;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .chevron {
+      color: var(--text-dim);
+      transition: transform .2s;
+      flex-shrink: 0;
+    }
+
+    .card.open .chevron { transform: rotate(180deg); }
+
+    .card-body {
+      display: none;
+      padding: 0 18px 18px;
+      border-top: 1px solid var(--border-light);
+    }
+
+    .card.open .card-body { display: block; }
+
+    /* michi time */
+    .michi-block {
+      background: var(--yellow-dim);
+      border: 1px solid #f5a62325;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-top: 14px;
+      margin-bottom: 14px;
+    }
+
+    .michi-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--yellow);
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .michi-text {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* wip grid */
+    .wip-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 10px;
+    }
+
+    .wip-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 8px;
+    }
+
+    .wip-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      transition: border-color .12s;
+    }
+
+    .wip-card:hover { border-color: #33333c; }
+
+    .wip-card.empty { opacity: .3; }
+
+    .wip-member {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 5px;
+    }
+
+    .wip-avatar {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 8px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .wip-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .wip-card:not(.empty) .wip-name { color: var(--text); }
+
+    .wip-text {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .wip-card.empty .wip-text { color: var(--text-dim); font-style: italic; }
+
+    /* highlight */
+    mark {
+      background: #f5a62340;
+      color: var(--yellow);
+      border-radius: 2px;
+      padding: 0 1px;
+    }
+
+    /* empty state */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state h3 { font-size: 15px; margin-bottom: 6px; color: var(--text); }
+    .empty-state p { font-size: 12.5px; }
+
+    /* avatar colors */
+    .av-win    { background: #3b82f618; color: #60a5fa; }
+    .av-jime   { background: #ec489918; color: #f472b6; }
+    .av-juanpa { background: #f59e0b18; color: #fbbf24; }
+    .av-lu     { background: #10b98118; color: #34d399; }
+    .av-luigi  { background: #8b5cf618; color: #a78bfa; }
+    .av-pablos { background: #ef444418; color: #f87171; }
+
+    /* scrollbar */
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h1>Design Team MoMs</h1>
+    <p>Daily standups · Capicua</p>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">By month</div>
+    <ul class="month-list" id="monthList"></ul>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">By person</div>
+    <div class="person-list" id="personList"></div>
+  </div>
+
+  <button class="clear-btn" id="clearBtn" onclick="clearFilters()">Clear all filters</button>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="search-wrap">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="search" placeholder="Search people, projects, notes…" />
+    </div>
+    <span class="result-count" id="resultCount"></span>
+  </div>
+
+  <div class="active-filters" id="activeFilters"></div>
+
+  <div class="feed" id="feed"></div>
+  <div class="empty-state" id="emptyState" style="display:none">
+    <h3>No meetings found</h3>
+    <p>Try adjusting your filters or search query.</p>
+  </div>
+</div>
+
+<script>
+const meetings = [
+  {
+    date: "2026-02-26",
+    duration: "20 min",
+    participants: ["Jime","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Pablo está fighting con Luquitas y Joaco con la adaptación. Hoy va a correr en la hora libre. Luigi va a arrancar el gym.",
+    wip: {
+      win: "",
+      jime: "Con Illuno con Mauri.",
+      juanpa: "Con el product archive. Entregó ya todo lo pendiente de FP.",
+      lu: "Con Flower Ranch. Siente que está avanzando pero sobre agua porque no tiene mucha info.",
+      luigi: "Reu de Kuhl ayer con Anna y hoy con Amber.",
+      pablos: "Picoteando con una proposal. Con Kuhl. Volvió Psilly con V3. Esperando por Kindlee. Con el showcase de Capicua."
+    }
+  },
+  {
+    date: "2026-02-27",
+    duration: "30 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Hoy era de mañana, era invierno. Nos van a reemplazar todos por agentes. Isma estaba hablando con una mexicana y parece hay posibilidad que salgan algunos proyectos. Surgió un posible cliente uruguayo también de un videojuego. Recomendación: formarnos y actualizarnos.",
+    wip: {
+      win: "Va a ver en lo que la podemos ayudar. Estuvo acomodando los nombres y va a seguir con el prototipo. Va a necesitar ayuda con los componentes.",
+      jime: "",
+      juanpa: "Flower Ranch a morir.",
+      lu: "Kuhl pendientes de la llamada anterior.",
+      luigi: "Con una proposal de Hawaii. Capaz se junta con Lu.",
+      pablos: "Sumándole cosas del showcase. Kindy tranqui."
+    }
+  },
+  {
+    date: "2026-03-03",
+    duration: "",
+    participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Win está fighting con Illuno, ayer se acostó re tarde. Pablo está fighting con Joaco. Luis está fighting consigo mismo. Jueves hay un workshop a la 1.",
+    wip: {
+      win: "Full con Illuno, ayer estuvieron como hasta las 9.",
+      jime: "",
+      juanpa: "",
+      lu: "Con Kuhl. Con FP. Con unos showcases.",
+      luigi: "Con FP. Con una proposal.",
+      pablos: "Con Kindly, Ginger y una proposal."
+    }
+  },
+  {
+    date: "2026-03-04",
+    duration: "30 min",
+    participants: ["Mauri","JuanPa","Lu","Pablos"],
+    michi: "A Lu le rompió un jardinero el parabrisas. Mauri tiene que ir a buscar a las primas. Luigi fue a llevar a Guille al médico. Ayer tuvieron call de Illuno para cerrar, hubo un tema con la librería.",
+    wip: {
+      win: "Con el darkmode de Illuno.",
+      jime: "",
+      juanpa: "Sigue con Flower Ranch, mostró varias opciones.",
+      lu: "Con FP y Kuhl.",
+      luigi: "",
+      pablos: "Con Kindly que pidió cambios. Con una proposal para el viernes."
+    }
+  },
+  {
+    date: "2026-03-05",
+    duration: "30 min",
+    participants: ["JuanPa","Lu","Luigi","Pablos"],
+    michi: "El lenguaje es algo vivo. Un amigo de Pablo arrancó a hablar en inclusive. Hay olor a meo, Juanpa tiene lentes nuevos y tiene aura. Lu va a grabar el curso de hoy para que quede en Loom.",
+    wip: {
+      win: "Illuno con el dark mode.",
+      jime: "",
+      juanpa: "Full con FlowerRanch.",
+      lu: "FP ayer mandaron algo. Hoy el curso. Kuhl va a meterle también.",
+      luigi: "Fighting con la proposal.",
+      pablos: "Pablo está ayudando con una proposal. Ya tiene los 3 links."
+    }
+  },
+  {
+    date: "2026-03-06",
+    duration: "50 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Mauri tiene nuevos lentes transparentes. Ahora ve en retina display. Miren hacia afuera también para cuidar los ojitos. El fin no va a ser terminator sino los bots entrando a nuestros chats.",
+    wip: {
+      win: "In tuvo luchando con lo de la librería, el light y el dark. Lo está dando todo.",
+      jime: "",
+      juanpa: "Flower Ranch.",
+      lu: "Con FP y Kuhl. Hoy no está Amber.",
+      luigi: "Con una proposal que atrasaron la fecha de entrega. Viendo lo de cómo reemplazar Notion.",
+      pablos: "Kindly ajustando unas cositas. Terminó lo de la proposal. Va a ayudar a Win."
+    }
+  },
+  {
+    date: "2026-03-12",
+    duration: "25 min",
+    participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Win tiene médico. Vimos cómo lograr editar videos. Win cambió a pago Chat GPT por Claude. Juanpa full con Flower Ranch.",
+    wip: {
+      win: "Tiene médico, investigando cosas con Claude.",
+      jime: "",
+      juanpa: "Full con Flower Ranch.",
+      lu: "Con Kuhl.",
+      luigi: "Chusmeando Claude y demás.",
+      pablos: "Viendo antigravity, a ver qué le larga."
+    }
+  },
+  {
+    date: "2026-03-16",
+    duration: "40 min",
+    participants: ["Mauri","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Viendo el tema de Claude. Luigi está con los procesos de Claude. Parece que Isma vendió Shaped Clarity a unos mexicanos. Carlos está en UY a mil y vuelve por un viaje del MBA.",
+    wip: {
+      win: "",
+      jime: "",
+      juanpa: "Con Flower Ranch, va a seguir con la opción que va más por el tema del 'ranch'. Hoy se va antes porque tiene teórico de manejo.",
+      lu: "Cosas de Kuhl.",
+      luigi: "Probando cosas con Claude.",
+      pablos: "Probando cosas con Claude."
+    }
+  },
+  {
+    date: "2026-03-18",
+    duration: "25 min",
+    participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Luigi está luchando con Claude. Al hermano de Lu no le están enseñando a usar AI y estudia programación. Mauri no se suma por el hijo que está enfermo.",
+    wip: {
+      win: "Siguiéndole la cabeza a Isma con Claude. Buscando la forma que sustituya componentes y ser los primeros.",
+      jime: "",
+      juanpa: "Con FP que recibió feedback. Al final quieren una flor.",
+      lu: "Reu de Kuhl con Anna. La semana que viene capaz se juntan con TY para ver lo de los slots.",
+      luigi: "Kuhl y chusmeando Claude.",
+      pablos: "Siguiéndole la cabeza a Isma con Claude."
+    }
+  },
+  {
+    date: "2026-03-20",
+    duration: "40 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Lucas está con vómitos. Los de Mauri están mejor. Claude está todo loco. Tiene una proposal de wiffleball con Gary P. Algo de una iglesia capaz sale también. Claude lograron hacer un plugin para componentes.",
+    wip: {
+      win: "Sigue con Claude.",
+      jime: "",
+      juanpa: "Flower Ranch.",
+      lu: "Con los favorites de Kuhl.",
+      luigi: "Con Claude.",
+      pablos: "Logró lo de los componentes de Claude haciendo un plugin."
+    }
+  },
+  {
+    date: "2026-03-23",
+    duration: "30 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Van a pasarnos Claude a todos para ver qué podemos automatizar. Lu está desde BsAs.",
+    wip: {
+      win: "También dándolo todo con Claude.",
+      jime: "",
+      juanpa: "Con Flower Ranch. Viernes con lo de Ismael de un seminar de campfire. Hizo un sitio con Claude e Ismael y se lo pasó a JuanPa para que lo siguiera.",
+      lu: "Con Kuhl con favorites y ahora trabajando con unas referencias. Se van a juntar más tarde por Claude.",
+      luigi: "Probando con Claude lo de las proposals. Con una propuesta para el 28. Hay otra para el 6.",
+      pablos: "Vibecodeando con Claude, viendo si logra hacer todo el flujo desde el discovery, el Figma y Webflow."
+    }
+  },
+  {
+    date: "2026-03-24",
+    duration: "25 min",
+    participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Hoy es el cumple de Guille, cumple 10. Figma hizo el plugin que hicieron Pablo y Win.",
+    wip: {
+      win: "Con el plugin hasta ahora. Bajándose skills de Figma.",
+      jime: "",
+      juanpa: "Con Flower Ranch, investigando lo de los skills.",
+      lu: "Kuhl e intentando que Claude arme un mail. Capaz arma una skill.",
+      luigi: "Ayer mandó una propuesta para Isma.",
+      pablos: "Con Webflow y Claude."
+    }
+  },
+  {
+    date: "2026-03-26",
+    duration: "30 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "La abuela de Win tiene hambre y agorafobia. Hay que salir chicos, sino nos volvemos bichos. Estaban hablando de Claude con Pablo y Win. JuanPa sigue con las clases de manejo.",
+    wip: {
+      win: "Claude.",
+      jime: "",
+      juanpa: "Sigue con FR.",
+      lu: "Luchando con Claude para que haga los mails de Kuhl. Ayer call con Anna y fue re bien.",
+      luigi: "Proposal vibe coding.",
+      pablos: "Claude."
+    }
+  },
+  {
+    date: "2026-03-30",
+    duration: "30 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Mauri está modo streamer. Con la lluvia se le hizo un engrudo a Win con la arenita de los gatos. Pablo no durmió nada porque Joaco anda con vómitos. Luchando con Antigravity.",
+    wip: {
+      win: "",
+      jime: "",
+      juanpa: "Con FR. Jugando con la imagen del fondo.",
+      lu: "Con Kuhl y FP.",
+      luigi: "Luis se juntó con Isma para ver cómo hacer todo con Claude.",
+      pablos: "Hizo una desktop app, está probando cosas."
+    }
+  },
+  {
+    date: "2026-04-01",
+    duration: "30 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Pablos"],
+    michi: "Mauri se durmió todo ayer. Se juntó con Pablo Restucia. Está trabajando con Capicua Engineer. Es un plugin con skills, conectores, etc. Pablo hizo un MCP que funciona para todo: GitHub, Vercel, todo. Inventando una suite para que el cliente pueda hacer todo. Quiere publicar el viernes.",
+    wip: {
+      win: "Con FR. Con Souped.",
+      jime: "",
+      juanpa: "Con la marca de Souped.",
+      lu: "Kuhl y FP.",
+      luigi: "",
+      pablos: "Investigando IA."
+    }
+  },
+  {
+    date: "2026-04-03",
+    duration: "15 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Pendientes: mail y banners de LinkedIn para Souped.",
+    wip: {
+      win: "Metiéndole UI al producto en sí. Con los flujos y la arquitectura de la info también.",
+      jime: "",
+      juanpa: "Logo y colores hecho. Falta algún elemento más de la aplicación de la marca.",
+      lu: "Con FP y Kuhl.",
+      luigi: "Con proposals y demás.",
+      pablos: "Con la landing de Souped."
+    }
+  },
+  {
+    date: "2026-04-06",
+    duration: "30 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Isma vive activado. El miércoles le muestra a un compa todo lo de Souped. TODO hay que pagar.",
+    wip: {
+      win: "Souped.",
+      jime: "",
+      juanpa: "Souped.",
+      lu: "FP mandaron bastantes cosas. Hoy está Amber.",
+      luigi: "Con el proposal creator.",
+      pablos: "Souped."
+    }
+  },
+  {
+    date: "2026-04-07",
+    duration: "20 min",
+    participants: ["Mauri","JuanPa","Lu","Luigi","Pablos"],
+    michi: "¿Win habrá podido conseguir la entrada para BTS? El finde Mauri vino al este y fue al jaguel con los chicos. El tiempo estuvo horrible. Pablo soñó con Claude.",
+    wip: {
+      win: "",
+      jime: "",
+      juanpa: "Con Souped con las tipos.",
+      lu: "Con Kuhl y FP. Hoy tienen call con Anna.",
+      luigi: "Armar Jira de Souped. Habló con Isma un pila de cosas. La daily de diseño va a ser de Souped también.",
+      pablos: "Con los bloques del Shadcn."
+    }
+  },
+  {
+    date: "2026-04-09",
+    duration: "5 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Firefly está atomizando. El 29 JP tiene la prueba de manejo. Carlos tiene otra sucursal de Souped a nivel organizacional: es una capa de inteligencia colectiva con una web app y un MCP que sustituye Linear.",
+    wip: {
+      win: "Con la web app de Souped.",
+      jime: "",
+      juanpa: "Con el onboarding. Ayer peleó con Claude. Se lo va a pasar a Win.",
+      lu: "Calls de Kuhl hoy y varias cosas de FP.",
+      luigi: "Está con Linear.",
+      pablos: "Con la brand de Fond."
+    }
+  },
+  {
+    date: "2026-04-10",
+    duration: "30 min",
+    participants: ["Mauri","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Una locura lo rápido que avanza todo. Luigi se queda sin tokens al toque. Todas las skills tienen que ser en inglés y estar completas.",
+    wip: {
+      win: "",
+      jime: "",
+      juanpa: "",
+      lu: "Con FP y Kuhl.",
+      luigi: "Ya puso todo el Linear.",
+      pablos: "Ya se juntó con Mauri. Pablo está haciendo varias skills."
+    }
+  },
+  {
+    date: "2026-04-13",
+    duration: "40 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Están TODOS de negro. Pablo cumple mañana y está cansado. Cumple 41. Isma está re activado, le mandó un pila de cosas a Mauri el finde. Quiere armar un video promocional con música brasilera que Mauri odia.",
+    wip: {
+      win: "Con Souped.",
+      jime: "",
+      juanpa: "Con los assets de marca, con el onboarding.",
+      lu: "Con FP y Kuhl.",
+      luigi: "Con Linear.",
+      pablos: "Con Souped."
+    }
+  },
+  {
+    date: "2026-04-14",
+    duration: "25 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "¡Feliz cumple Pablos! Hoy está en modo Gardel. Su sueño es acostarse temprano y no ver a nadie. A Luigi le tiraron el edificio de al lado. Win está en modo abogada/secretaria en la ofi.",
+    wip: {
+      win: "Trabajando en el onboarding.",
+      jime: "",
+      juanpa: "Se reunió con Carlos e Isma por Souped. Animando las cards del onboarding con GSAP.",
+      lu: "Va a limpiar los archivos de FP y probar hacer una web app. Hoy reu de Kuhl.",
+      luigi: "Con proposals y FP. Hoy reu de Kuhl.",
+      pablos: "Con las skills, arreglando unas cosas de los íconos. Carlos le va a escribir por la UI a Fond."
+    }
+  },
+  {
+    date: "2026-04-23",
+    duration: "40 min",
+    participants: ["Mauri","Win","JuanPa","Luigi","Pablos"],
+    michi: "Win está en Playa Hermosa.",
+    wip: {
+      win: "Con Souped.",
+      jime: "",
+      juanpa: "Con F Ranch haciendo de chofer de mouse.",
+      lu: "Tienen call con Amber y Ana. Con el mail. Con Claude design.",
+      luigi: "Trabajando en algo que Isma le pidió: un skill registry. Ver cómo se vayan mejorando las skills automáticamente.",
+      pablos: "Con Souped."
+    }
+  },
+  {
+    date: "2026-04-24",
+    duration: "30 min",
+    participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Luigi fue a ver el documental de los tontos. Era él y dos más. Pablo nos contó de su amigo loco que los hace salir de su zona de confort.",
+    wip: {
+      win: "Ayer subieron a dev lo que tenían hecho de Souped y buscando errores. Integrando Fond a Souped.",
+      jime: "",
+      juanpa: "Sigue con F Ranch.",
+      lu: "Kuhl y FP. Ayer tuvieron call con Anna y salió todo bien.",
+      luigi: "Kuhl y FP. Isma lo está matando con videos raros. Viendo cómo hacer que autoevolucionen las skills.",
+      pablos: "Con lo del wireframe."
+    }
+  },
+  {
+    date: "2026-04-27",
+    duration: "45 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Se vuela todo. Están viendo lo de GitHub. Mauri se apretó el dedo en el auto. El 1ero de Mayo sale Souped.",
+    wip: {
+      win: "Con lo del juego de Souped y Fond.",
+      jime: "",
+      juanpa: "Con FR y la marca de Souped.",
+      lu: "Con FP y Kuhl.",
+      luigi: "Con lo de las métricas de las skills.",
+      pablos: "Con FR y la narrativa de la marca."
+    }
+  },
+  {
+    date: "2026-05-04",
+    duration: "60 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "Llegaron cosas de Summer Smash. Mauri tuvo baby shower en la casa y tuvo que romper la puerta.",
+    wip: {
+      win: "Dejó lo mejor que pudo las cosas de Souped el viernes. Le mandó el app y el brand game a Isma. Le respondió cosas a arreglar y ya lo hizo. Está intentando aplicar el design MD.",
+      jime: "",
+      juanpa: "Sigue con lo de la landing.",
+      lu: "Con FP y Kuhl. Con el email builder y la webapp para armar los parkings.",
+      luigi: "Le mandó el jueves a Isma un file donde puso todo para organizarse.",
+      pablos: "Llegaron cosas de Summer Smash, va a responderle el mail. Le pasó a Pablo lo del blueprint, ya hizo los cambios que le pidió y lo mergeó."
+    }
+  },
+  {
+    date: "2026-05-05",
+    duration: "30 min",
+    participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "",
+    wip: {
+      win: "Ayer con lo del design system de Souped. Con las diferencias de los sonidos de los games, haciéndole un QA.",
+      jime: "",
+      juanpa: "Con más cosas de FR. Hablaron de la exploración de marca de Souped.",
+      lu: "Con Kuhl y FP.",
+      luigi: "Varios.",
+      pablos: "Está con lo del FigJam para bajar a tierra el producto Souped."
+    }
+  },
+  {
+    date: "2026-05-06",
+    duration: "35 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    michi: "",
+    wip: {
+      win: "Hizo un design system para los juegos y terminó los que ya hizo.",
+      jime: "",
+      juanpa: "Con Flower Ranch.",
+      lu: "Probando Claude design para Kuhl.",
+      luigi: "Con lo del skill registry. Viendo cosas de Carpati.",
+      pablos: ""
+    }
+  }
+];
+
+// ── CONFIG ──
+const members = [
+  { key: "win",    label: "Win",    av: "av-win"    },
+  { key: "jime",   label: "Jime",   av: "av-jime"   },
+  { key: "juanpa", label: "JuanPa", av: "av-juanpa" },
+  { key: "lu",     label: "Lu",     av: "av-lu"     },
+  { key: "luigi",  label: "Luigi",  av: "av-luigi"  },
+  { key: "pablos", label: "Pablos", av: "av-pablos" },
+];
+
+// ── STATE ──
+let activeMonth  = null;   // "2026-03" or null
+let activePersons = [];    // ["win","lu",…]
+let searchQ      = "";
+
+// ── MONTH HELPERS ──
+function monthKey(iso) { return iso.slice(0, 7); }
+
+function monthLabel(key) {
+  const [y, m] = key.split("-");
+  return new Date(+y, +m - 1, 1).toLocaleDateString("es-UY", { month: "long", year: "numeric" });
+}
+
+function monthLabelShort(key) {
+  const [y, m] = key.split("-");
+  return new Date(+y, +m - 1, 1).toLocaleDateString("es-UY", { month: "short", year: "2-digit" });
+}
+
+function weekday(iso) {
+  return new Date(iso + "T00:00:00").toLocaleDateString("es-UY", { weekday: "short" });
+}
+
+function dayNum(iso) {
+  return iso.slice(8);
+}
+
+// ── FILTER LOGIC ──
+function filtered() {
+  const q = searchQ.toLowerCase();
+  return [...meetings].reverse().filter(m => {
+    if (activeMonth && monthKey(m.date) !== activeMonth) return false;
+    if (activePersons.length) {
+      const hasWip = activePersons.every(p => (m.wip[p] || "").trim());
+      if (!hasWip) return false;
+    }
+    if (q) {
+      const blob = [m.michi, ...Object.values(m.wip), m.participants.join(" ")].join(" ").toLowerCase();
+      if (!blob.includes(q)) return false;
+    }
+    return true;
+  });
+}
+
+// ── HIGHLIGHT ──
+function hl(text) {
+  if (!searchQ) return text;
+  const re = new RegExp(`(${searchQ.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi");
+  return text.replace(re, "<mark>$1</mark>");
+}
+
+// ── SIDEBAR: MONTH LIST ──
+function buildMonthList() {
+  const counts = {};
+  meetings.forEach(m => { const k = monthKey(m.date); counts[k] = (counts[k] || 0) + 1; });
+  const keys = [...new Set(meetings.map(m => monthKey(m.date)))].sort().reverse();
+
+  const ul = document.getElementById("monthList");
+  ul.innerHTML = "";
+
+  // All option
+  const allLi = document.createElement("li");
+  allLi.className = "month-item" + (activeMonth === null ? " active" : "");
+  allLi.innerHTML = `<span>All time</span><span class="month-count">${meetings.length}</span>`;
+  allLi.onclick = () => { activeMonth = null; render(); };
+  ul.appendChild(allLi);
+
+  keys.forEach(k => {
+    const li = document.createElement("li");
+    li.className = "month-item" + (activeMonth === k ? " active" : "");
+    li.innerHTML = `<span style="text-transform:capitalize">${monthLabelShort(k)}</span><span class="month-count">${counts[k]}</span>`;
+    li.onclick = () => { activeMonth = (activeMonth === k ? null : k); render(); };
+    ul.appendChild(li);
+  });
+}
+
+// ── SIDEBAR: PERSON LIST ──
+function buildPersonList() {
+  const el = document.getElementById("personList");
+  el.innerHTML = members.map(({ key, label, av }) => {
+    const active = activePersons.includes(key);
+    return `
+      <div class="person-item ${active ? "active" : ""}" onclick="togglePerson('${key}')">
+        <span class="person-avatar ${av}">${label[0]}</span>
+        <span>${label}</span>
+        <span class="person-check">
+          <svg width="9" height="9" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg>
+        </span>
+      </div>`;
+  }).join("");
+}
+
+function togglePerson(key) {
+  activePersons = activePersons.includes(key)
+    ? activePersons.filter(p => p !== key)
+    : [...activePersons, key];
+  render();
+}
+
+function clearFilters() {
+  activeMonth = null;
+  activePersons = [];
+  searchQ = "";
+  document.getElementById("search").value = "";
+  render();
+}
+
+// ── ACTIVE FILTER CHIPS ──
+function buildChips() {
+  const el = document.getElementById("activeFilters");
+  const chips = [];
+
+  if (activeMonth) {
+    chips.push(`<span class="filter-chip">
+      ${monthLabel(activeMonth).charAt(0).toUpperCase() + monthLabel(activeMonth).slice(1)}
+      <button onclick="activeMonth=null;render()">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+      </button>
+    </span>`);
+  }
+
+  activePersons.forEach(key => {
+    const m = members.find(m => m.key === key);
+    chips.push(`<span class="filter-chip">
+      ${m.label}
+      <button onclick="activePersons=activePersons.filter(p=>p!=='${key}');render()">
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="2" y1="2" x2="10" y2="10"/><line x1="10" y1="2" x2="2" y2="10"/></svg>
+      </button>
+    </span>`);
+  });
+
+  el.innerHTML = chips.join("");
+}
+
+// ── MAIN RENDER ──
+function render() {
+  buildMonthList();
+  buildPersonList();
+  buildChips();
+
+  const results = filtered();
+  const feed = document.getElementById("feed");
+  const empty = document.getElementById("emptyState");
+  const count = document.getElementById("resultCount");
+
+  count.textContent = `${results.length} standup${results.length !== 1 ? "s" : ""}`;
+
+  if (!results.length) {
+    feed.innerHTML = "";
+    empty.style.display = "block";
+    return;
+  }
+  empty.style.display = "none";
+
+  // Group by month
+  const groups = {};
+  results.forEach(m => {
+    const k = monthKey(m.date);
+    if (!groups[k]) groups[k] = [];
+    groups[k].push(m);
+  });
+
+  feed.innerHTML = Object.entries(groups).map(([month, items]) => `
+    <div class="month-group">
+      <div class="month-header">
+        <span class="month-title">${monthLabel(month)}</span>
+        <span class="month-line"></span>
+        <span class="month-badge">${items.length} standup${items.length !== 1 ? "s" : ""}</span>
+      </div>
+      ${items.map((m, i) => renderCard(m, month + i)).join("")}
+    </div>
+  `).join("");
+}
+
+function renderCard(m, id) {
+  const wipCards = members.map(({ key, label, av }) => {
+    const text = m.wip[key] || "";
+    return `
+      <div class="wip-card ${!text ? "empty" : ""}">
+        <div class="wip-member">
+          <span class="wip-avatar ${av}">${label[0]}</span>
+          <span class="wip-name">${label}</span>
+        </div>
+        <div class="wip-text">${text ? hl(text) : "—"}</div>
+      </div>`;
+  }).join("");
+
+  const michiHtml = m.michi ? `
+    <div class="michi-block">
+      <div class="michi-label">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        Michi time
+      </div>
+      <div class="michi-text">${hl(m.michi)}</div>
+    </div>` : "";
+
+  const preview = Object.values(m.wip).filter(Boolean).slice(0, 3).join(" · ");
+
+  return `
+    <div class="card" id="card-${id}">
+      <div class="card-header" onclick="document.getElementById('card-${id}').classList.toggle('open')">
+        <div class="card-day">
+          <span class="card-weekday">${weekday(m.date)}</span>
+          <span class="card-daynum">${dayNum(m.date)}</span>
+        </div>
+        <div class="card-info">
+          <div class="card-participants">
+            ${m.participants.map(p => `<span class="participant-tag">${p}</span>`).join("")}
+          </div>
+          <div class="card-preview">${hl(preview)}</div>
+        </div>
+        <div class="card-meta">
+          ${m.duration ? `<span class="duration-badge">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            ${m.duration}
+          </span>` : ""}
+          <svg class="chevron" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+      </div>
+      <div class="card-body">
+        ${michiHtml}
+        <div class="wip-label">Work in progress</div>
+        <div class="wip-grid">${wipCards}</div>
+      </div>
+    </div>`;
+}
+
+// ── SEARCH ──
+document.getElementById("search").addEventListener("input", e => {
+  searchQ = e.target.value.trim().toLowerCase();
+  render();
+});
+
+// ── INIT ──
+render();
+</script>
+</body>
+</html>
