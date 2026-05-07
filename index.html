@@ -655,7 +655,7 @@
   <div class="sec" id="sec-personas">
     <div class="sec-header" onclick="toggleSection('personas')">
       <svg class="sec-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-      <span class="sec-label">Personas</span>
+      <span class="sec-label">People</span>
     </div>
     <div class="sec-body">
       <div class="people-grid" id="personList"></div>
@@ -665,7 +665,7 @@
   <div class="sec" id="sec-mes">
     <div class="sec-header" onclick="toggleSection('mes')">
       <svg class="sec-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-      <span class="sec-label">Mes</span>
+      <span class="sec-label">Month</span>
     </div>
     <div class="sec-body">
       <ul class="month-list" id="monthList"></ul>
@@ -675,21 +675,21 @@
   <div class="sec" id="sec-filtros">
     <div class="sec-header" onclick="toggleSection('filtros')">
       <svg class="sec-chevron" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m6 9 6 6 6-6"/></svg>
-      <span class="sec-label">Filtros</span>
+      <span class="sec-label">Filters</span>
     </div>
     <div class="sec-body">
       <div class="quick-list" id="quickList"></div>
     </div>
   </div>
 
-  <button class="clear-btn" id="clearBtn" onclick="clearFilters()">Limpiar filtros</button>
+  <button class="clear-btn" id="clearBtn" onclick="clearFilters()">Clear filters</button>
 </aside>
 
 <div class="main">
   <div class="topbar">
     <div class="search-wrap">
       <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      <input type="search" id="search" placeholder="Buscar personas, proyectos, notas…" />
+      <input type="search" id="search" placeholder="Search people, projects, notes…" />
     </div>
     <span class="result-count" id="resultCount"></span>
   </div>
@@ -697,8 +697,8 @@
   <div class="active-filters" id="activeFilters"></div>
   <div class="feed" id="feed"></div>
   <div class="empty-state" id="emptyState" style="display:none">
-    <h3>Sin resultados</h3>
-    <p>Probá ajustando los filtros o la búsqueda.</p>
+    <h3>No results</h3>
+    <p>Try adjusting your filters or search.</p>
   </div>
 </div>
 
@@ -1157,16 +1157,16 @@ function monthKey(iso) { return iso.slice(0, 7); }
 
 function monthLabel(key) {
   const [y, m] = key.split("-");
-  return new Date(+y, +m - 1, 1).toLocaleDateString("es-UY", { month: "long", year: "numeric" });
+  return new Date(+y, +m - 1, 1).toLocaleDateString("en-US", { month: "long", year: "numeric" });
 }
 
 function monthLabelShort(key) {
   const [y, m] = key.split("-");
-  return new Date(+y, +m - 1, 1).toLocaleDateString("es-UY", { month: "short", year: "2-digit" });
+  return new Date(+y, +m - 1, 1).toLocaleDateString("en-US", { month: "short", year: "2-digit" });
 }
 
 function weekday(iso) {
-  return new Date(iso + "T00:00:00").toLocaleDateString("es-UY", { weekday: "short" });
+  return new Date(iso + "T00:00:00").toLocaleDateString("en-US", { weekday: "short" });
 }
 
 function dayNum(iso) { return iso.slice(8); }
@@ -1206,7 +1206,7 @@ function hl(text) {
 // ── SIDEBAR ──
 function buildSidebarStats() {
   const dates = meetings.map(m => m.date).sort();
-  const fmt = iso => new Date(iso + "T00:00:00").toLocaleDateString("es-UY", { month: "short", year: "2-digit" });
+  const fmt = iso => new Date(iso + "T00:00:00").toLocaleDateString("en-US", { month: "short", year: "2-digit" });
   document.getElementById("sidebarStats").textContent =
     `${meetings.length} standups · ${fmt(dates[0])} – ${fmt(dates[dates.length - 1])}`;
 }
@@ -1221,7 +1221,7 @@ function buildMonthList() {
 
   const allLi = document.createElement("li");
   allLi.className = "month-item" + (!activeMonth ? " active" : "");
-  allLi.innerHTML = `<span>Todos</span><span class="month-count">${meetings.length}</span>`;
+  allLi.innerHTML = `<span>All time</span><span class="month-count">${meetings.length}</span>`;
   allLi.onclick = () => { activeMonth = null; render(); };
   ul.appendChild(allLi);
 
@@ -1245,10 +1245,10 @@ function buildPersonList() {
 function buildQuickFilters() {
   document.getElementById("quickList").innerHTML = `
     <div class="quick-item ${filterBajada ? "active" : ""}" onclick="toggleQuick('bajada')">
-      <span class="quick-icon">📣</span>Con bajada de Mauri
+      <span class="quick-icon">📣</span>Leadership Briefing
     </div>
     <div class="quick-item ${filterMichi ? "active" : ""}" onclick="toggleQuick('michi')">
-      <span class="quick-icon">💬</span>Con Michi time
+      <span class="quick-icon">💬</span>Michi time
     </div>
     <div class="quick-item ${filterFullTeam ? "active" : ""}" onclick="toggleQuick('full')">
       <span class="quick-icon">👥</span>Full team
@@ -1299,8 +1299,8 @@ function buildChips() {
     const mb = members.find(m => m.key === key);
     chips.push(`<span class="filter-chip">${mb.label}${xBtn(`activePersons=activePersons.filter(p=>p!=='${key}');render()`)}</span>`);
   });
-  if (filterBajada)   chips.push(`<span class="filter-chip">Con bajada${xBtn("filterBajada=false;render()")}</span>`);
-  if (filterMichi)    chips.push(`<span class="filter-chip">Con Michi${xBtn("filterMichi=false;render()")}</span>`);
+  if (filterBajada)   chips.push(`<span class="filter-chip">Leadership Briefing${xBtn("filterBajada=false;render()")}</span>`);
+  if (filterMichi)    chips.push(`<span class="filter-chip">Michi time${xBtn("filterMichi=false;render()")}</span>`);
   if (filterFullTeam) chips.push(`<span class="filter-chip">Full team${xBtn("filterFullTeam=false;render()")}</span>`);
 
   document.getElementById("activeFilters").innerHTML = chips.join("");
@@ -1373,7 +1373,7 @@ function renderCard(m, id) {
     <div class="bajada-block">
       <div class="bajada-label">
         <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V4M5 13l7 7 7-7"/></svg>
-        Bajada
+        Leadership Briefing (Mauricio)
       </div>
       <div class="bajada-text">${hl(m.bajada)}</div>
     </div>` : "";
