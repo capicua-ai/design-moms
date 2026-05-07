@@ -480,6 +480,27 @@
       flex-shrink: 0;
     }
 
+    .fathom-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: all .12s;
+      flex-shrink: 0;
+    }
+
+    .fathom-btn:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent-mid);
+      color: var(--accent);
+    }
+
     .chevron {
       color: var(--text-dim);
       transition: transform .2s;
@@ -1399,12 +1420,15 @@ function renderCard(m, id) {
           <div class="card-preview">${hl(preview)}</div>
         </div>
         <div class="card-meta">
-          ${m.bajada ? `<span class="michi-dot" style="background:#22d3ee" title="Con bajada de Mauri"></span>` : ""}
-          ${m.michi ? `<span class="michi-dot" title="Con Michi time"></span>` : ""}
+          ${m.bajada ? `<span class="michi-dot" style="background:#22d3ee" title="Leadership Briefing"></span>` : ""}
+          ${m.michi ? `<span class="michi-dot" title="Michi time"></span>` : ""}
           ${m.duration ? `<span class="dur-badge">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             ${m.duration}
           </span>` : ""}
+          ${m.fathomUrl ? `<a class="fathom-btn" href="${m.fathomUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Watch recording">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </a>` : ""}
           <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </div>
