@@ -484,21 +484,27 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 24px;
-      height: 24px;
-      border-radius: 6px;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
       background: var(--surface2);
       border: 1px solid var(--border);
       color: var(--text-muted);
       text-decoration: none;
       transition: all .12s;
       flex-shrink: 0;
+      margin-top: 4px;
     }
 
     .fathom-btn:hover {
       background: var(--accent-dim);
       border-color: var(--accent-mid);
       color: var(--accent);
+    }
+
+    .card-day-no-rec {
+      height: 20px;
+      margin-top: 4px;
     }
 
     .chevron {
@@ -1190,6 +1196,7 @@ const meetings = [
     date: "2026-04-14",
     duration: "25 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/634702564",
     michi: "¡Feliz cumple Pablos! Hoy está en modo Gardel. Su sueño es acostarse temprano y no ver a nadie. A Luigi le tiraron el edificio de al lado. Win está en modo abogada/secretaria en la ofi.",
     bajada: "",
     wip: {
@@ -1235,6 +1242,7 @@ const meetings = [
     date: "2026-04-24",
     duration: "30 min",
     participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/648561636",
     michi: "Luigi fue a ver el documental de los tontos. Era él y dos más. Pablo nos contó de su amigo loco que los hace salir de su zona de confort.",
     wip: {
       win: "Ayer subieron a dev lo que tenían hecho de Souped y buscando errores. Integrando Fond a Souped.",
@@ -1249,6 +1257,7 @@ const meetings = [
     date: "2026-04-27",
     duration: "45 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/650130072",
     michi: "Mauri se apretó el dedo en el auto.",
     bajada: "Se vuela todo. Están viendo lo de GitHub. El 1ero de Mayo sale Souped.",
     wip: {
@@ -1264,6 +1273,7 @@ const meetings = [
     date: "2026-05-04",
     duration: "60 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/658802702",
     michi: "Mauri tuvo baby shower en la casa y tuvo que romper la puerta.",
     bajada: "Llegaron cosas de Summer Smash.",
     wip: {
@@ -1279,6 +1289,7 @@ const meetings = [
     date: "2026-05-05",
     duration: "30 min",
     participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/659864985",
     michi: "",
     wip: {
       win: "Ayer con lo del design system de Souped. Con las diferencias de los sonidos de los games, haciéndole un QA.",
@@ -1308,6 +1319,7 @@ const meetings = [
     date: "2026-05-07",
     duration: "14 min",
     participants: ["Win","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/663348792",
     michi: "Lu salió a caminar de noche y la agarró la lluvia. Luis corre bajo la lluvia. Chistes de 'Antavirus' y Cabo Verde. Hoy juega Rampla.",
     wip: {
       win: "Creó el Game Design System site (brand guide para games) y lo recreó en Figma. Trabajando en el Game Wizard tool. Figma Bridge rompe los diseños.",
@@ -1580,6 +1592,9 @@ function renderCard(m, id) {
         <div class="card-day">
           <span class="card-wd">${weekday(m.date)}</span>
           <span class="card-dd">${dayNum(m.date)}</span>
+          ${m.fathomUrl ? `<a class="fathom-btn" href="${m.fathomUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Watch recording">
+            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </a>` : `<div class="card-day-no-rec"></div>`}
         </div>
         <div class="card-sep"></div>
         <div class="card-info">
@@ -1593,9 +1608,6 @@ function renderCard(m, id) {
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             ${m.duration}
           </span>` : ""}
-          ${m.fathomUrl ? `<a class="fathom-btn" href="${m.fathomUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="Watch recording">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-          </a>` : ""}
           <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
         </div>
       </div>
