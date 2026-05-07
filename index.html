@@ -524,6 +524,34 @@
       line-height: 1.6;
     }
 
+    /* bajada */
+    .bajada-block {
+      background: #06b6d410;
+      border: 1px solid #06b6d422;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-top: 10px;
+      margin-bottom: 14px;
+    }
+
+    .bajada-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: #22d3ee;
+      margin-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .bajada-text {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
     /* wip */
     .wip-label {
       font-size: 10px;
@@ -694,7 +722,8 @@ const meetings = [
     date: "2026-02-27",
     duration: "30 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Hoy era de mañana, era invierno. Nos van a reemplazar todos por agentes. Isma estaba hablando con una mexicana y parece hay posibilidad que salgan algunos proyectos. Surgió un posible cliente uruguayo también de un videojuego. Recomendación: formarnos y actualizarnos.",
+    michi: "Hoy era de mañana, era invierno.",
+    bajada: "Nos van a reemplazar todos por agentes. Isma estaba hablando con una mexicana y parece hay posibilidad que salgan algunos proyectos. Surgió un posible cliente uruguayo también de un videojuego. Recomendación: formarnos y actualizarnos.",
     wip: {
       win: "Va a ver en lo que la podemos ayudar. Estuvo acomodando los nombres y va a seguir con el prototipo. Va a necesitar ayuda con los componentes.",
       jime: "",
@@ -722,7 +751,8 @@ const meetings = [
     date: "2026-03-04",
     duration: "30 min",
     participants: ["Mauri","JuanPa","Lu","Pablos"],
-    michi: "A Lu le rompió un jardinero el parabrisas. Mauri tiene que ir a buscar a las primas. Luigi fue a llevar a Guille al médico. Ayer tuvieron call de Illuno para cerrar, hubo un tema con la librería.",
+    michi: "A Lu le rompió un jardinero el parabrisas. Mauri tiene que ir a buscar a las primas. Luigi fue a llevar a Guille al médico.",
+    bajada: "Ayer tuvieron call de Illuno para cerrar, hubo un tema con la librería.",
     wip: {
       win: "Con el darkmode de Illuno.",
       jime: "",
@@ -750,7 +780,8 @@ const meetings = [
     date: "2026-03-06",
     duration: "50 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Mauri tiene nuevos lentes transparentes. Ahora ve en retina display. Miren hacia afuera también para cuidar los ojitos. El fin no va a ser terminator sino los bots entrando a nuestros chats.",
+    michi: "Mauri tiene nuevos lentes transparentes. Ahora ve en retina display. Miren hacia afuera también para cuidar los ojitos.",
+    bajada: "El fin no va a ser terminator sino los bots entrando a nuestros chats.",
     wip: {
       win: "In tuvo luchando con lo de la librería, el light y el dark. Lo está dando todo.",
       jime: "",
@@ -778,7 +809,8 @@ const meetings = [
     date: "2026-03-16",
     duration: "40 min",
     participants: ["Mauri","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Viendo el tema de Claude. Luigi está con los procesos de Claude. Parece que Isma vendió Shaped Clarity a unos mexicanos. Carlos está en UY a mil y vuelve por un viaje del MBA.",
+    michi: "Carlos está en UY a mil y vuelve por un viaje del MBA.",
+    bajada: "Viendo el tema de Claude. Parece que Isma vendió Shaped Clarity a unos mexicanos.",
     wip: {
       win: "",
       jime: "",
@@ -806,7 +838,8 @@ const meetings = [
     date: "2026-03-20",
     duration: "40 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Lucas está con vómitos. Los de Mauri están mejor. Claude está todo loco. Tiene una proposal de wiffleball con Gary P. Algo de una iglesia capaz sale también. Claude lograron hacer un plugin para componentes.",
+    michi: "Lucas está con vómitos. Los de Mauri están mejor.",
+    bajada: "Claude está todo loco. Tiene una proposal de wiffleball con Gary P. Algo de una iglesia capaz sale también. Lograron hacer un plugin para componentes con Claude.",
     wip: {
       win: "Sigue con Claude.",
       jime: "",
@@ -820,7 +853,8 @@ const meetings = [
     date: "2026-03-23",
     duration: "30 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Van a pasarnos Claude a todos para ver qué podemos automatizar. Lu está desde BsAs.",
+    michi: "Lu está desde BsAs.",
+    bajada: "Van a pasarnos Claude a todos para ver qué podemos automatizar.",
     wip: {
       win: "También dándolo todo con Claude.",
       jime: "",
@@ -848,7 +882,8 @@ const meetings = [
     date: "2026-03-26",
     duration: "30 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "La abuela de Win tiene hambre y agorafobia. Hay que salir chicos, sino nos volvemos bichos. Estaban hablando de Claude con Pablo y Win. JuanPa sigue con las clases de manejo.",
+    michi: "La abuela de Win tiene hambre y agorafobia. Hay que salir chicos, sino nos volvemos bichos.",
+    bajada: "Estaban hablando de Claude con Pablo y Win. JuanPa sigue con las clases de manejo.",
     wip: {
       win: "Claude.",
       jime: "",
@@ -862,7 +897,8 @@ const meetings = [
     date: "2026-03-30",
     duration: "30 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Mauri está modo streamer. Con la lluvia se le hizo un engrudo a Win con la arenita de los gatos. Pablo no durmió nada porque Joaco anda con vómitos. Luchando con Antigravity.",
+    michi: "Con la lluvia se le hizo un engrudo a Win con la arenita de los gatos. Pablo no durmió nada porque Joaco anda con vómitos.",
+    bajada: "Mauri está modo streamer. Luchando con Antigravity.",
     wip: {
       win: "",
       jime: "",
@@ -876,7 +912,8 @@ const meetings = [
     date: "2026-04-01",
     duration: "30 min",
     participants: ["Mauri","Win","JuanPa","Lu","Pablos"],
-    michi: "Mauri se durmió todo ayer. Se juntó con Pablo Restucia. Está trabajando con Capicua Engineer. Es un plugin con skills, conectores, etc. Pablo hizo un MCP que funciona para todo: GitHub, Vercel, todo. Inventando una suite para que el cliente pueda hacer todo. Quiere publicar el viernes.",
+    michi: "Mauri se durmió todo ayer.",
+    bajada: "Se juntó con Pablo Restucia. Está trabajando con Capicua Engineer: un plugin con skills, conectores, etc. Pablo hizo un MCP que funciona para todo: GitHub, Vercel, todo. Inventando una suite para que el cliente pueda hacer todo. Quiere publicar el viernes.",
     wip: {
       win: "Con FR. Con Souped.",
       jime: "",
@@ -890,7 +927,8 @@ const meetings = [
     date: "2026-04-03",
     duration: "15 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Pendientes: mail y banners de LinkedIn para Souped.",
+    michi: "",
+    bajada: "Pendientes: mail y banners de LinkedIn para Souped.",
     wip: {
       win: "Metiéndole UI al producto en sí. Con los flujos y la arquitectura de la info también.",
       jime: "",
@@ -904,7 +942,8 @@ const meetings = [
     date: "2026-04-06",
     duration: "30 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Isma vive activado. El miércoles le muestra a un compa todo lo de Souped. TODO hay que pagar.",
+    michi: "",
+    bajada: "Isma vive activado. El miércoles le muestra a un compa todo lo de Souped. TODO hay que pagar.",
     wip: {
       win: "Souped.",
       jime: "",
@@ -919,6 +958,7 @@ const meetings = [
     duration: "20 min",
     participants: ["Mauri","JuanPa","Lu","Luigi","Pablos"],
     michi: "¿Win habrá podido conseguir la entrada para BTS? El finde Mauri vino al este y fue al jaguel con los chicos. El tiempo estuvo horrible. Pablo soñó con Claude.",
+    bajada: "",
     wip: {
       win: "",
       jime: "",
@@ -932,7 +972,8 @@ const meetings = [
     date: "2026-04-09",
     duration: "5 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Firefly está atomizando. El 29 JP tiene la prueba de manejo. Carlos tiene otra sucursal de Souped a nivel organizacional: es una capa de inteligencia colectiva con una web app y un MCP que sustituye Linear.",
+    michi: "Firefly está atomizando. El 29 JP tiene la prueba de manejo.",
+    bajada: "Carlos tiene otra sucursal de Souped a nivel organizacional: es una capa de inteligencia colectiva con una web app y un MCP que sustituye Linear.",
     wip: {
       win: "Con la web app de Souped.",
       jime: "",
@@ -946,7 +987,8 @@ const meetings = [
     date: "2026-04-10",
     duration: "30 min",
     participants: ["Mauri","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Una locura lo rápido que avanza todo. Luigi se queda sin tokens al toque. Todas las skills tienen que ser en inglés y estar completas.",
+    michi: "Una locura lo rápido que avanza todo. Luigi se queda sin tokens al toque.",
+    bajada: "Todas las skills tienen que ser en inglés y estar completas.",
     wip: {
       win: "",
       jime: "",
@@ -960,7 +1002,8 @@ const meetings = [
     date: "2026-04-13",
     duration: "40 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Están TODOS de negro. Pablo cumple mañana y está cansado. Cumple 41. Isma está re activado, le mandó un pila de cosas a Mauri el finde. Quiere armar un video promocional con música brasilera que Mauri odia.",
+    michi: "Están TODOS de negro. Pablo cumple mañana y está cansado. Cumple 41.",
+    bajada: "Isma está re activado, le mandó un pila de cosas a Mauri el finde. Quiere armar un video promocional con música brasilera que Mauri odia.",
     wip: {
       win: "Con Souped.",
       jime: "",
@@ -975,6 +1018,7 @@ const meetings = [
     duration: "25 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
     michi: "¡Feliz cumple Pablos! Hoy está en modo Gardel. Su sueño es acostarse temprano y no ver a nadie. A Luigi le tiraron el edificio de al lado. Win está en modo abogada/secretaria en la ofi.",
+    bajada: "",
     wip: {
       win: "Trabajando en el onboarding.",
       jime: "",
@@ -989,6 +1033,7 @@ const meetings = [
     duration: "40 min",
     participants: ["Mauri","Win","JuanPa","Luigi","Pablos"],
     michi: "Win está en Playa Hermosa.",
+    bajada: "",
     wip: {
       win: "Con Souped.",
       jime: "",
@@ -1016,7 +1061,8 @@ const meetings = [
     date: "2026-04-27",
     duration: "45 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Se vuela todo. Están viendo lo de GitHub. Mauri se apretó el dedo en el auto. El 1ero de Mayo sale Souped.",
+    michi: "Mauri se apretó el dedo en el auto.",
+    bajada: "Se vuela todo. Están viendo lo de GitHub. El 1ero de Mayo sale Souped.",
     wip: {
       win: "Con lo del juego de Souped y Fond.",
       jime: "",
@@ -1030,7 +1076,8 @@ const meetings = [
     date: "2026-05-04",
     duration: "60 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
-    michi: "Llegaron cosas de Summer Smash. Mauri tuvo baby shower en la casa y tuvo que romper la puerta.",
+    michi: "Mauri tuvo baby shower en la casa y tuvo que romper la puerta.",
+    bajada: "Llegaron cosas de Summer Smash.",
     wip: {
       win: "Dejó lo mejor que pudo las cosas de Souped el viernes. Le mandó el app y el brand game a Isma. Le respondió cosas a arreglar y ya lo hizo. Está intentando aplicar el design MD.",
       jime: "",
@@ -1059,6 +1106,7 @@ const meetings = [
     duration: "35 min",
     participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
     michi: "",
+    bajada: "",
     wip: {
       win: "Hizo un design system para los juegos y terminó los que ya hizo.",
       jime: "",
@@ -1102,6 +1150,7 @@ let collapsedMonths   = new Set();
 let collapsedSections = new Set();
 let filterMichi    = false;
 let filterFullTeam = false;
+let filterBajada   = false;
 
 // ── HELPERS ──
 function monthKey(iso) { return iso.slice(0, 7); }
@@ -1123,7 +1172,7 @@ function weekday(iso) {
 function dayNum(iso) { return iso.slice(8); }
 
 function hasActive() {
-  return !!(activeMonth || activePersons.length || filterMichi || filterFullTeam || searchQ);
+  return !!(activeMonth || activePersons.length || filterMichi || filterFullTeam || filterBajada || searchQ);
 }
 
 // ── FILTER ──
@@ -1133,6 +1182,7 @@ function filtered() {
     if (activeMonth && monthKey(m.date) !== activeMonth) return false;
     if (activePersons.length && !activePersons.every(p => (m.wip[p] || "").trim())) return false;
     if (filterMichi && !m.michi) return false;
+    if (filterBajada && !m.bajada) return false;
     if (filterFullTeam) {
       const core = ["win","juanpa","lu","luigi","pablos"];
       if (!core.every(p => m.participants.some(part =>
@@ -1140,7 +1190,7 @@ function filtered() {
       ))) return false;
     }
     if (q) {
-      const blob = [m.michi, ...Object.values(m.wip), m.participants.join(" ")].join(" ").toLowerCase();
+      const blob = [m.michi, m.bajada, ...Object.values(m.wip), m.participants.join(" ")].join(" ").toLowerCase();
       if (!blob.includes(q)) return false;
     }
     return true;
@@ -1194,6 +1244,9 @@ function buildPersonList() {
 
 function buildQuickFilters() {
   document.getElementById("quickList").innerHTML = `
+    <div class="quick-item ${filterBajada ? "active" : ""}" onclick="toggleQuick('bajada')">
+      <span class="quick-icon">📣</span>Con bajada de Mauri
+    </div>
     <div class="quick-item ${filterMichi ? "active" : ""}" onclick="toggleQuick('michi')">
       <span class="quick-icon">💬</span>Con Michi time
     </div>
@@ -1217,14 +1270,15 @@ function togglePerson(key) {
 }
 
 function toggleQuick(type) {
-  if (type === "michi") filterMichi = !filterMichi;
-  if (type === "full")  filterFullTeam = !filterFullTeam;
+  if (type === "bajada") filterBajada   = !filterBajada;
+  if (type === "michi")  filterMichi    = !filterMichi;
+  if (type === "full")   filterFullTeam = !filterFullTeam;
   render();
 }
 
 function clearFilters() {
   activeMonth = null; activePersons = [];
-  filterMichi = false; filterFullTeam = false;
+  filterMichi = false; filterFullTeam = false; filterBajada = false;
   searchQ = "";
   document.getElementById("search").value = "";
   render();
@@ -1245,6 +1299,7 @@ function buildChips() {
     const mb = members.find(m => m.key === key);
     chips.push(`<span class="filter-chip">${mb.label}${xBtn(`activePersons=activePersons.filter(p=>p!=='${key}');render()`)}</span>`);
   });
+  if (filterBajada)   chips.push(`<span class="filter-chip">Con bajada${xBtn("filterBajada=false;render()")}</span>`);
   if (filterMichi)    chips.push(`<span class="filter-chip">Con Michi${xBtn("filterMichi=false;render()")}</span>`);
   if (filterFullTeam) chips.push(`<span class="filter-chip">Full team${xBtn("filterFullTeam=false;render()")}</span>`);
 
@@ -1314,6 +1369,15 @@ function renderCard(m, id) {
       <div class="michi-text">${hl(m.michi)}</div>
     </div>` : "";
 
+  const bajadaHtml = m.bajada ? `
+    <div class="bajada-block">
+      <div class="bajada-label">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V4M5 13l7 7 7-7"/></svg>
+        Bajada
+      </div>
+      <div class="bajada-text">${hl(m.bajada)}</div>
+    </div>` : "";
+
   const withUpdates = members.filter(({ key }) => (m.wip[key] || "").trim()).map(({ label }) => label);
   const preview     = withUpdates.length ? withUpdates.join(" · ") : m.participants.join(" · ");
 
@@ -1335,6 +1399,7 @@ function renderCard(m, id) {
           <div class="card-preview">${hl(preview)}</div>
         </div>
         <div class="card-meta">
+          ${m.bajada ? `<span class="michi-dot" style="background:#22d3ee" title="Con bajada de Mauri"></span>` : ""}
           ${m.michi ? `<span class="michi-dot" title="Con Michi time"></span>` : ""}
           ${m.duration ? `<span class="dur-badge">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -1345,6 +1410,7 @@ function renderCard(m, id) {
       </div>
       <div class="card-body">
         ${michiHtml}
+        ${bajadaHtml}
         <div class="wip-label">Work in progress</div>
         <div class="wip-grid">${wipCards}</div>
       </div>
