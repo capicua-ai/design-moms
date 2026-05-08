@@ -641,6 +641,41 @@
 
     .wip-card.empty .wip-text { color: var(--text-dim); font-style: italic; }
 
+    /* guests */
+    .guests-section {
+      margin-top: 14px;
+    }
+
+    .guests-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      color: #a78bfa;
+      margin-bottom: 8px;
+    }
+
+    .guest-card {
+      background: #8b5cf610;
+      border: 1px solid #8b5cf622;
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      margin-bottom: 7px;
+    }
+
+    .guest-name {
+      font-size: 11px;
+      font-weight: 600;
+      color: #a78bfa;
+      margin-bottom: 4px;
+    }
+
+    .guest-text {
+      font-size: 12.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
     mark {
       background: #f5a62335;
       color: var(--yellow);
@@ -856,6 +891,7 @@ const meetings = [
     date: "2026-02-26",
     duration: "20 min",
     participants: ["Jime","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/580644617",
     michi: "Pablo está fighting con Luquitas y Joaco con la adaptación. Hoy va a correr en la hora libre. Luigi va a arrancar el gym.",
     wip: {
       win: "",
@@ -1329,6 +1365,28 @@ const meetings = [
       luigi: "Automatización de MoMs. Habló con Carlos/Isma sobre usar Souped. Reunión con Isma sobre Skill Registry — Isma planteó axiomas de comunicación y el 'por qué'. Reunión con Pablo más tarde.",
       pablos: "Le pasó a Isma el skill de wireframe/blueprint. Modificó el orquestador para mostrar wireframes en estilo blueprint."
     }
+  },
+  {
+    date: "2026-05-08",
+    duration: "49 min",
+    participants: ["Mauri","Win","JuanPa","Lu","Luigi","Pablos"],
+    fathomUrl: "https://fathom.video/calls/667271056",
+    michi: "Mauri con problemas digestivos — le hacen estudios (necografía, sangre), probando dieta sin gluten. Se confiesa que las galletitas de arroz son lo único que le cae bien de mañana. Chiste sobre pasarle estudios a Isma vía ecografía.",
+    bajada: "Storybook: Mauri validó la propuesta de integrar Storybook al lado de Figma para que Claude no invente assets y respete el design system. Souped onboarding: presentó el prototipo HTML del flujo KYC con personaje 'Nacha', 13 challenges en 4 etapas (Find, Sharpen, Prove, Plan). Vocabulario 'por arriba y por abajo' — arriba es la UI de Souped, abajo es Claude/plugin directo. Flower Ranch: el próximo paso es la página web usando Souped como caso de uso real.",
+    wip: {
+      mauri: "Prototipo HTML del onboarding de Souped — flujo KYC, presentación del personaje, 13 challenges en 4 mundos. Comparativa de apps de referencia (Ladder, Tolanz, Duolingo, Brilliant).",
+      win: "Migró dos apps a Next.js y arregló el Design System para compatibilidad. Esperando Loom de Pablo para formalizar el proceso de subida.",
+      juanpa: "Explorando Souped. Pasó PDF con todas las opciones de Flower Ranch.",
+      lu: "Reu de Kuhl ayer — Ana quedó copada con Claude Code y quiere más involucramiento en UX/web. FP. QA de Flash Parking con Luigi.",
+      luigi: "Automatización de MoMs (Fathom → HTML diario, Kuhl → Notion). Explorando el 'por qué' de Souped (no el 'cómo') con prototipo. Reu con Isma.",
+      pablos: "Flujos de onboarding de Souped con Mauri. Probó Next.js pero la máquina se murió; laburando en HTML mientras tanto."
+    },
+    guests: [
+      {
+        name: "Ismail",
+        notes: "CEO. Presentó Storybook como herramienta para anclar el design system: Claude resiste contra los assets existentes y no inventa cosas nuevas. Mostró su Storybook de Vybetools como ejemplo. Introdujo el concepto 'Roguelike' (sugerido por Carlos) como vocabulario del tipo de juego que están construyendo con Souped. Compartió referencias de onboarding: Ladder y Tolanz. Explicó el sistema de recompensas pensado (extensión del free trial invitando gente, badges por challenges). Presentó 'Cook' — la posibilidad de promptear y escribir código directamente desde el dashboard de Souped sin usar Claude externo. Resumió las dos diferencias clave vs. competidores (Bolt, Base44, Replit): la guía lúdica para el founder y el foco en apps internas."
+      }
+    ]
   }
 ];
 
@@ -1390,7 +1448,8 @@ function filtered() {
       ))) return false;
     }
     if (q) {
-      const blob = [m.michi, m.bajada, ...Object.values(m.wip), m.participants.join(" ")].join(" ").toLowerCase();
+      const guestNotes = (m.guests || []).map(g => g.name + " " + g.notes).join(" ");
+      const blob = [m.michi, m.bajada, ...Object.values(m.wip), m.participants.join(" "), guestNotes].join(" ").toLowerCase();
       if (!blob.includes(q)) return false;
     }
     return true;
@@ -1569,6 +1628,16 @@ function renderCard(m, id) {
       <div class="michi-text">${hl(m.michi)}</div>
     </div>` : "";
 
+  const guestsHtml = (m.guests && m.guests.length) ? `
+    <div class="guests-section">
+      <div class="guests-label">Guests</div>
+      ${m.guests.map(g => `
+      <div class="guest-card">
+        <div class="guest-name">${g.name}</div>
+        <div class="guest-text">${hl(g.notes)}</div>
+      </div>`).join("")}
+    </div>` : "";
+
   const bajadaHtml = m.bajada ? `
     <div class="bajada-block">
       <div class="bajada-label">
@@ -1604,6 +1673,7 @@ function renderCard(m, id) {
         <div class="card-meta">
           ${m.bajada ? `<span class="michi-dot" style="background:#22d3ee" title="Leadership Briefing"></span>` : ""}
           ${m.michi ? `<span class="michi-dot" title="Michi time"></span>` : ""}
+          ${(m.guests && m.guests.length) ? `<span class="michi-dot" style="background:#a78bfa" title="Guests"></span>` : ""}
           ${m.duration ? `<span class="dur-badge">
             <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             ${m.duration}
@@ -1616,6 +1686,7 @@ function renderCard(m, id) {
         ${bajadaHtml}
         <div class="wip-label">Work in progress</div>
         <div class="wip-grid">${wipCards}</div>
+        ${guestsHtml}
       </div>
     </div>`;
 }
